@@ -1,0 +1,27 @@
+name: Scrape latest data
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"
+
+jobs:
+  scheduled:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out this repo
+        uses: actions/checkout@v2
+      - name: Fetch latest data
+        run: |-
+          curl 'https://gist.githubusercontent.com/will-r-chase/bd5c3be87e03a98cfa96284e3895c050/raw/87d886cc5e123908b55bbed2d1ca9d23a4e6a351/test_abort.json' > incidents.json
+          cat 'incidents.json' | jq '.success' | echo "API_RESPONSE=." >> $GITHUB_ENV
+      - name: Commit and push if it changed
+        if: ${{ env.API_RESPONSE == 'true' }}
+        run: |-
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          timestamp=$(date -u)
+          git commit -m "Latest data: ${timestamp}" || exit 0
+          git push
