@@ -15,9 +15,11 @@ jobs:
       - name: Fetch latest data
         run: |-
           curl 'https://gist.githubusercontent.com/will-r-chase/bd5c3be87e03a98cfa96284e3895c050/raw/87d886cc5e123908b55bbed2d1ca9d23a4e6a351/test_abort.json' > incidents.json
-          cat 'incidents.json' | jq '.success'
+          echo 'JSON_RESPONSE<<EOF' >> $GITHUB_ENV
+          cat 'incidents.json' | jq '.success' >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
       - name: Commit and push if it changed
-        if: ${{ env.API_RESPONSE == 'true' }}
+        if: ${{ env.JSON_RESPONSE == 'true' }}
         run: |-
           git config user.name "Automated"
           git config user.email "actions@users.noreply.github.com"
