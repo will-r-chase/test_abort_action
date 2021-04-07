@@ -20,7 +20,7 @@ jobs:
           echo ${{env.API_SUCCESS}}
       - name: Fetch latest data
         run: |
-          [[ ${{env.API_SUCCESS}} == "true" ]] && curl 'https://gist.githubusercontent.com/will-r-chase/bd5c3be87e03a98cfa96284e3895c050/raw/642fb9bf80b4cd18844844ebca51c70d20d34520/test_abort.json' || echo "Not equal"
+          [[ ${{env.API_SUCCESS}} == "true" ]] && curl 'https://gist.githubusercontent.com/will-r-chase/bd5c3be87e03a98cfa96284e3895c050/raw/642fb9bf80b4cd18844844ebca51c70d20d34520/test_abort.json' > incidents.json || echo "Failed response"
       - name: Commit and push if it change
         run: |
           git config user.name "Automated"
