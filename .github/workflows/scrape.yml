@@ -14,13 +14,13 @@ jobs:
         uses: actions/checkout@v2
       - name: Verify API
         run: |-
-          echo 'API_SUCCESS='$(curl https://gist.githubusercontent.com/will-r-chase/267e65babd6897a5960ea24645275df4/raw/c9886c2aa76075ca82aaf3f8c604fd40452eb4b3/test_abort_true.json | jq '.success') >> $GITHUB_ENV
+          echo 'API_SUCCESS='$(curl https://gist.githubusercontent.com/will-r-chase/bd5c3be87e03a98cfa96284e3895c050/raw/642fb9bf80b4cd18844844ebca51c70d20d34520/test_abort.json | jq '.success') >> $GITHUB_ENV
       - name: Test env
         run: |
           echo ${{env.API_SUCCESS}}
       - name: Fetch latest data
         run: |
-          [[ ${{env.API_SUCCESS}} == "true" ]] && curl 'https://gist.githubusercontent.com/will-r-chase/267e65babd6897a5960ea24645275df4/raw/c9886c2aa76075ca82aaf3f8c604fd40452eb4b3/test_abort_true.json' || echo "Not equal"
+          [[ ${{env.API_SUCCESS}} == "true" ]] && curl 'https://gist.githubusercontent.com/will-r-chase/bd5c3be87e03a98cfa96284e3895c050/raw/642fb9bf80b4cd18844844ebca51c70d20d34520/test_abort.json' || echo "Not equal"
       - name: Commit and push if it change
         run: |
           git config user.name "Automated"
