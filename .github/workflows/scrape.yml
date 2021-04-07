@@ -19,14 +19,14 @@ jobs:
         run: |
           echo ${{env.API_SUCCESS}}
       - name: Fetch latest data
-        if: env.API_SUCCESS == 'true'
-        run: curl 'https://gist.githubusercontent.com/will-r-chase/267e65babd6897a5960ea24645275df4/raw/c9886c2aa76075ca82aaf3f8c604fd40452eb4b3/test_abort_true.json' > incidents.json
+          if: env.API_SUCCESS == 'true'
+          run: curl 'https://gist.githubusercontent.com/will-r-chase/267e65babd6897a5960ea24645275df4/raw/c9886c2aa76075ca82aaf3f8c604fd40452eb4b3/test_abort_true.json' > incidents.json
       - name: Commit and push if it changed
-        if: env.API_SUCCESS == 'true'
-        run: |
-          git config user.name "Automated"
-          git config user.email "actions@users.noreply.github.com"
-          git add -A
-          timestamp=$(date -u)
-          git commit -m "Latest data: ${timestamp}" || exit 0
-          git push
+          if: env.API_SUCCESS == 'true'
+          run: |
+            git config user.name "Automated"
+            git config user.email "actions@users.noreply.github.com"
+            git add -A
+            timestamp=$(date -u)
+            git commit -m "Latest data: ${timestamp}" || exit 0
+            git push
