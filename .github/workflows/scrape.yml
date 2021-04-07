@@ -15,6 +15,9 @@ jobs:
       - name: Verify API
         run: |-
           echo 'API_SUCCESS='$(curl https://gist.githubusercontent.com/will-r-chase/bd5c3be87e03a98cfa96284e3895c050/raw/87d886cc5e123908b55bbed2d1ca9d23a4e6a351/test_abort.json | jq '.success') >> $GITHUB_ENV
+      - name: Test env
+        run: |
+          echo ${{env.API_SUCCESS}}
       - name: Fetch latest data
         if: ${{ env.API_SUCCESS == 'true' }}
         run: |-
