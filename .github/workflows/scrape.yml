@@ -14,17 +14,15 @@ jobs:
         uses: actions/checkout@v2
       - name: Verify API
         run: |-
-          echo 'JSON_RESPONSE='$(curl https://gist.githubusercontent.com/will-r-chase/267e65babd6897a5960ea24645275df4/raw/c9886c2aa76075ca82aaf3f8c604fd40452eb4b3/test_abort_true.json) >> $GITHUB_ENV
-          echo 'API_SUCCESS='$(${{env.JSON_RESPONSE}} | jq ".success") >> GITHUB_ENV
-          echo ${{env.API_SUCCESS}}
-          if [[ ${{env.API_SUCCESS}} == 'true' ]];
-          then ${{env.JSON_RESPONSE}} > incidents.json
+          echo 'API_SUCCESS='$(curl https://gist.githubusercontent.com/will-r-chase/267e65babd6897a5960ea24645275df4/raw/c9886c2aa76075ca82aaf3f8c604fd40452eb4b3/test_abort_true.json | jq '.success') >> $GITHUB_ENV
       - name: Test env
         run: |
           echo ${{env.API_SUCCESS}}
       - name: Fetch latest data
-        if: env.API_SUCCESS == 'true'
-        run: curl 'https://gist.githubusercontent.com/will-r-chase/267e65babd6897a5960ea24645275df4/raw/c9886c2aa76075ca82aaf3f8c604fd40452eb4b3/test_abort_true.json' > incidents.json
+        run: |
+          if [[ ${{env.API_SUCCESS}} == 'true']];
+          then
+            curl 'https://gist.githubusercontent.com/will-r-chase/267e65babd6897a5960ea24645275df4/raw/c9886c2aa76075ca82aaf3f8c604fd40452eb4b3/test_abort_true.json' > incidents.json
       - name: Commit and push if it change
         run: |
           git config user.name "Automated"
