@@ -14,14 +14,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Verify API
         run: |-
-          echo 'API_SUCCESS='$(curl https://gist.githubusercontent.com/will-r-chase/bd5c3be87e03a98cfa96284e3895c050/raw/87d886cc5e123908b55bbed2d1ca9d23a4e6a351/test_abort.json | jq '.success') >> $GITHUB_ENV
+          echo 'API_SUCCESS='$(curl https://gist.githubusercontent.com/will-r-chase/bd5c3be87e03a98cfa96284e3895c050/raw/642fb9bf80b4cd18844844ebca51c70d20d34520/test_abort.json | jq '.success') >> $GITHUB_ENV
       - name: Test env
         run: |
           echo ${{env.API_SUCCESS}}
       - name: Fetch latest data
         if: ${{ env.API_SUCCESS }}
         run: |-
-          curl 'https://gist.githubusercontent.com/will-r-chase/bd5c3be87e03a98cfa96284e3895c050/raw/87d886cc5e123908b55bbed2d1ca9d23a4e6a351/test_abort.json' > incidents.json
+          curl 'https://gist.githubusercontent.com/will-r-chase/bd5c3be87e03a98cfa96284e3895c050/raw/642fb9bf80b4cd18844844ebca51c70d20d34520/test_abort.json' > incidents.json
       - name: Commit and push if it changed
         if: ${{ env.API_SUCCESS }}
         run: |-
